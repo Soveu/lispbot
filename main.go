@@ -28,7 +28,9 @@ func main() {
 	scn := initScope()
 	lisp = parens.New(scn)
 	scr := parens.NewScope(scn)
-	scr.Bind("", "yes")
+	scr.Bind("say", func(args ...interface{}) string{
+		return fmt.Sprint(args...)
+	})
 	root = parens.New(scr)
 
 	// Create a new Discord session using the provided bot token.
@@ -76,7 +78,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 	if m.Content[:6] == "(sudo " { 
 		if !isSudoer(m.Author.ID){
-			s.ChannelMessageSend(m.ChannelID, "User not in sudoers file. This incident will be reported")
+			s.ChannelMessageSend(m.ChannelID, "User not in sudoers file. This incident **will be reported**")
 			return
 		}
 		val, err = root.Execute(m.Content[6:len(m.Content)-1])

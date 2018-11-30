@@ -1,7 +1,6 @@
 ﻿package main
 
 import(
-	"fmt"
 	"math"
 	"errors"
 	"time"
@@ -19,9 +18,6 @@ func initScope() (scope *parens.Scope){
 	})
 	scope.Bind("pong", func() string{
 		return "ping"
-	})
-	scope.Bind("say", func(args ...interface{}) string{
-		return fmt.Sprint(args...)
 	})
 	scope.Bind("sleep", func(t float64) error{
 		if(t > 30){
